@@ -137,6 +137,25 @@ func TestValidation(t *testing.T) {
 	params = pbRequestParamFromInput(ipt)
 	_, err = client.CalculateScore(ctx, &params)
 	assert.Error(err)
+
+	// incomplete frame: less than 10 frames,
+	incompleteIpt := [][]uint32{{1}}
+	frames := make([]*pb.Frame, len(incompleteIpt))
+	for i, f := range incompleteIpt {
+		pbf := &pb.Frame{
+			Throws: f,
+		}
+		frames[i] = pbf
+	}
+
+	params = pb.CalculateScoreRequest{
+		Game: &pb.Game{
+			Frames: frames,
+		},
+	}
+
+	_, err = client.CalculateScore(ctx, &params)
+	assert.Error(err)
 }
 
 func TestCalculate(t *testing.T) {
