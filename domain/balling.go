@@ -1,7 +1,7 @@
 package domain
 
-type Game = [10][]uint
-type Scores = [10]uint
+type Game = [10][]uint32
+type Scores = [10]uint32
 
 type BallingScoreAPI interface {
 	Calculate(ipt Game) (Scores, error)

@@ -88,7 +88,7 @@ func (ScoreCalculator) isValidInput(ipt dm.Game) bool {
 }
 
 // without considering whether frame is last frame
-func isFrameStrike(f []uint) bool {
+func isFrameStrike(f []uint32) bool {
 	if len(f) <= 0 || len(f) > 3 {
 		panic("invalid frame")
 	}
@@ -96,7 +96,7 @@ func isFrameStrike(f []uint) bool {
 	return f[0] == 10
 }
 
-func sum(nums []uint) (ret uint) {
+func sum(nums []uint32) (ret uint32) {
 	for _, v := range nums {
 		ret += v
 	}

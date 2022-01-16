@@ -22,50 +22,50 @@ func TestFrameValidation(t *testing.T) {
 
 	// frame 1-10, num throws = 0
 	ipt = input
-	ipt[2] = make([]uint, 0)
+	ipt[2] = make([]uint32, 0)
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 
 	// frame 1-9, num throws >=3,
 	ipt = input
-	ipt[1] = []uint{1, 2, 3}
+	ipt[1] = []uint32{1, 2, 3}
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 
 	// frame 10 num throws >= 4
 	ipt = input
-	ipt[9] = []uint{1, 2, 3, 4}
+	ipt[9] = []uint32{1, 2, 3, 4}
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 
 	// frame 1-9, num throws = 1 but 1st throw is not strike
 	ipt = input
-	ipt[2] = []uint{5}
+	ipt[2] = []uint32{5}
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 
 	// frame 10, num throws = 3 but 1st throw is not strike
 	ipt = input
-	ipt[9] = []uint{1, 2, 3}
+	ipt[9] = []uint32{1, 2, 3}
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 
 	// frame 10, num throws < 3 but first throw is strike
 	// The last frame has three throws only if a bowler makes a strike on the first throw. means 10, 10, 10 is valid
 	ipt = input
-	ipt[9] = []uint{10, 9}
+	ipt[9] = []uint32{10, 9}
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 
 	// frame 1-9, score sum > 10(maximum)
 	ipt = input
-	ipt[1] = []uint{6, 9}
+	ipt[1] = []uint32{6, 9}
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 
 	// frame 10, score sum > 30(maximum)
 	ipt = input
-	ipt[9] = []uint{10, 10, 11}
+	ipt[9] = []uint32{10, 10, 11}
 	_, err = cal.Calculate(ipt)
 	assert.Error(err)
 }
