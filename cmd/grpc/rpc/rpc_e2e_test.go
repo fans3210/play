@@ -147,15 +147,32 @@ func TestValidation(t *testing.T) {
 		}
 		frames[i] = pbf
 	}
-
 	params = pb.CalculateScoreRequest{
 		Game: &pb.Game{
 			Frames: frames,
 		},
 	}
-
 	_, err = client.CalculateScore(ctx, &params)
 	assert.Error(err)
+
+	// more than 10 frames,
+	overCompleteIpt := input[:]
+	overCompleteIpt = append(overCompleteIpt, []uint32{1, 2})
+	frames = make([]*pb.Frame, len(overCompleteIpt))
+	for i, f := range overCompleteIpt {
+		pbf := &pb.Frame{
+			Throws: f,
+		}
+		frames[i] = pbf
+	}
+	params = pb.CalculateScoreRequest{
+		Game: &pb.Game{
+			Frames: frames,
+		},
+	}
+	_, err = client.CalculateScore(ctx, &params)
+	assert.Error(err)
+
 }
 
 func TestCalculate(t *testing.T) {
