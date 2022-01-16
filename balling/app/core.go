@@ -11,28 +11,37 @@ func NewCoreCalculator() ScoreCalculator {
 	return ScoreCalculator{}
 }
 
-func (s ScoreCalculator) Calculate(input [10][]uint) ([10]uint, error) {
+func (s ScoreCalculator) Calculate(ipt [10][]uint) ([10]uint, error) {
 	var output [10]uint
-	isValid := s.isValidInput(input)
+	isValid := s.isValidInput(ipt)
 
 	if !isValid {
 		return output, errs.ErrInvalidInput
 	}
 
-	score := [10]uint{}
-	for i := len(input) - 1; i >= 0; i-- {
-		frame := input[i]
-		score[i] = sum(frame)
+	// calculate pure scores of each frame
+	for i := len(ipt) - 1; i >= 0; i-- {
+		output[i] = sum(ipt[i])
 
-		if isFrameStrike(frame) {
-			if i+1 < len(input)-1 {
-				nextFrameOriginalScore := sum(input[i+1])
-				score[i] += nextFrameOriginalScore
+		if isFrameStrike(ipt[i]) {
+			if i+1 < len(ipt)-1 {
+				nextFrameScore := sum(ipt[i+1])
+				output[i] += nextFrameScore
+			}
+
+			if i+2 < len(ipt)-1 && isFrameStrike(ipt[i+1]) {
+				frameAfterNextScore := sum(ipt[i+2])
+				output[i] += frameAfterNextScore
 			}
 		}
 	}
 
-	return [10]uint{1}, nil
+	// calculate accumulated scores of each frame
+	for i := 1; i < len(output); i++ {
+		output[i] += output[i-1]
+	}
+
+	return output, nil
 }
 
 // each frame must contain 1-2 elements for 1th to 9th frame and up to 3 for 10th frame
