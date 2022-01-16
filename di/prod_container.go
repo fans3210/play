@@ -3,11 +3,11 @@ package di
 import (
 	"balling/balling/app"
 	"balling/balling/usecase"
-	"balling/domain"
+	dm "balling/domain"
 )
 
 type prodContainer struct {
-	ballingScoreAPI domain.BallingScoreAPI
+	ballingScoreAPI dm.BallingScoreAPI
 }
 
 func NewProductionContainer() *prodContainer {
@@ -16,7 +16,7 @@ func NewProductionContainer() *prodContainer {
 	}
 }
 
-func (c *prodContainer) MakeCalculateBallingScoreUseCase(input [10][]uint) domain.CalBallingScoreUseCase {
+func (c *prodContainer) MakeCalculateBallingScoreUseCase(input dm.Game) dm.CalBallingScoreUseCase {
 	uc := usecase.NewCalBallingScoreuseCase(input, c.ballingScoreAPI)
 	return uc
 }

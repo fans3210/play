@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package="./pb";
+
+import "balling.proto";
+
+message CalculateScoreRequest {
+    Game game = 1;      
+}
+
+// results is an array of 10 positive integers
+message CalculateScoreResponse {
+    repeated uint32 results = 1;
+}
+
+service BallingService {
+    rpc CalculateScore(CalculateScoreRequest) returns (CalculateScoreResponse) {}        
+}

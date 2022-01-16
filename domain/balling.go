@@ -1,13 +1,16 @@
 package domain
 
+type Game = [10][]uint
+type Scores = [10]uint
+
 type BallingScoreAPI interface {
-	Calculate(ipt [10][]uint) ([10]uint, error)
+	Calculate(ipt Game) (Scores, error)
 }
 
 type CalBallingScoreUseCase interface {
-	Run() ([10]uint, error)
+	Run() (Scores, error)
 }
 
 type CalBallingScoreUseCaseFactory interface {
-	MakeCalculateBallingScoreUseCase(input [10][]uint) CalBallingScoreUseCase
+	MakeCalculateBallingScoreUseCase(input Game) CalBallingScoreUseCase
 }

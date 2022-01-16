@@ -1,6 +1,7 @@
 package app
 
 import (
+	dm "balling/domain"
 	"balling/domain/errs"
 )
 
@@ -11,8 +12,8 @@ func NewCoreCalculator() ScoreCalculator {
 	return ScoreCalculator{}
 }
 
-func (s ScoreCalculator) Calculate(ipt [10][]uint) ([10]uint, error) {
-	var output [10]uint
+func (s ScoreCalculator) Calculate(ipt dm.Game) (dm.Scores, error) {
+	var output dm.Scores
 	isValid := s.isValidInput(ipt)
 
 	if !isValid {
@@ -45,7 +46,7 @@ func (s ScoreCalculator) Calculate(ipt [10][]uint) ([10]uint, error) {
 }
 
 // each frame must contain 1-2 elements for 1th to 9th frame and up to 3 for 10th frame
-func (ScoreCalculator) isValidInput(ipt [10][]uint) bool {
+func (ScoreCalculator) isValidInput(ipt dm.Game) bool {
 
 	for idx, frame := range ipt {
 

@@ -2,24 +2,24 @@ package usecase_test
 
 import (
 	"balling/di"
-	"balling/domain"
+	dm "balling/domain"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var f domain.CalBallingScoreUseCaseFactory = di.NewTestContainer()
+var f dm.CalBallingScoreUseCaseFactory = di.NewTestContainer()
 
-func cal(ipt [10][]uint) ([10]uint, error) {
+func cal(ipt dm.Game) (dm.Scores, error) {
 
 	uc := f.MakeCalculateBallingScoreUseCase(ipt)
 	return uc.Run()
 }
 
 func TestValidation(t *testing.T) {
-	input := [10][]uint{{5, 2}, {8, 1}, {6, 4}, {10}, {0, 5}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {10, 2, 6}}
+	input := dm.Game{{5, 2}, {8, 1}, {6, 4}, {10}, {0, 5}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {10, 2, 6}}
 	assert := assert.New(t)
-	var ipt [10][]uint
+	var ipt dm.Game
 	var err error
 
 	ipt = input
@@ -78,29 +78,29 @@ func TestValidation(t *testing.T) {
 
 func TestCal(t *testing.T) {
 	// spare samples
-	ipt := [10][]uint{{5, 2}, {8, 1}, {6, 4}, {0, 0}, {0, 5}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {2, 6}}
+	ipt := dm.Game{{5, 2}, {8, 1}, {6, 4}, {0, 0}, {0, 5}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {2, 6}}
 
 	output, err := cal(ipt)
 	assert.NoError(t, err)
 
-	expected := [10]uint{7, 16, 26, 26, 31, 39, 48, 56, 63, 71}
+	expected := dm.Scores{7, 16, 26, 26, 31, 39, 48, 56, 63, 71}
 	assert.Equal(t, output, expected)
 
 	// provided samples
-	ipt = [10][]uint{{5, 2}, {8, 1}, {6, 4}, {10}, {0, 5}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {10, 2, 6}}
+	ipt = dm.Game{{5, 2}, {8, 1}, {6, 4}, {10}, {0, 5}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {10, 2, 6}}
 
 	output, err = cal(ipt)
 	assert.NoError(t, err)
 
-	expected = [10]uint{7, 16, 26, 41, 46, 54, 63, 71, 78, 96}
+	expected = dm.Scores{7, 16, 26, 41, 46, 54, 63, 71, 78, 96}
 	assert.Equal(t, output, expected)
 
 	// consecutive strike case
-	ipt = [10][]uint{{5, 2}, {8, 1}, {6, 4}, {10}, {10}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {10, 2, 6}}
+	ipt = dm.Game{{5, 2}, {8, 1}, {6, 4}, {10}, {10}, {2, 6}, {8, 1}, {5, 3}, {6, 1}, {10, 2, 6}}
 	output, err = cal(ipt)
 	assert.NoError(t, err)
 
-	expected = [10]uint{7, 16, 26, 54, 72, 80, 89, 97, 104, 122}
+	expected = dm.Scores{7, 16, 26, 54, 72, 80, 89, 97, 104, 122}
 	assert.Equal(t, output, expected)
 
 }
