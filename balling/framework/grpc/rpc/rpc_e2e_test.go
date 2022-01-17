@@ -2,7 +2,7 @@ package rpc_test
 
 import (
 	"balling/balling/framework/grpc/pb"
-	"balling/cmd/grpc/rpc"
+	"balling/balling/framework/grpc/rpc"
 	"balling/di"
 	dm "balling/domain"
 	"context"
@@ -10,7 +10,6 @@ import (
 	"net"
 	"testing"
 
-	// "github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/test/bufconn"

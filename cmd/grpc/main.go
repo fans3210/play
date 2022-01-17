@@ -1,7 +1,7 @@
 package main
 
 import (
-	"balling/cmd/grpc/rpc"
+	"balling/balling/framework/grpc/rpc"
 	"balling/di"
 )
 
